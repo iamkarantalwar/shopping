@@ -1,0 +1,74 @@
+{% extends 'itcompany/dashboard.html' %}
+{% block content %}
+<div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Product</h4>
+            <p class="card-category">Add your Product here.</p>
+          </div>
+          <div class="card-body">
+            <form action="{% url 'product' %}" method="POST" enctype="multipart/form-data">
+                 {% csrf_token %} 
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">subcategory</label>
+                    <br/>
+                    <select class="form-control" name="subcategory" required>
+                      {% for i in subcatgs %}
+                      <option value ="{{i.id}}"> {{i.name}}</option>
+                      {% endfor %}
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Name</label>
+                    <input type="text" name="product" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">product_description</label>
+                        <input type="text" name="product_description" class="form-control" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">original_price</label>
+                            <input type="text" name="original_price" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">discount_price</label>
+                                <input type="text" name="discount_price" class="form-control" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              
+                                
+                                <input type="file" name="file" class="form-control" required>
+                              
+                            </div>
+                          </div>
+               
+              <button type="submit" class="btn btn-primary pull-right">Product</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+{% endblock %}

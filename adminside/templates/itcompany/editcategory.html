@@ -1,0 +1,19 @@
+{% extends 'itcompany/dashboard.html' %}
+{% block content %}
+<div class="col-md-8 compose-right">
+        <div class="inbox-details-default">
+          <div class="inbox-details-heading">
+              Add category
+          </div>
+
+          <div class="inbox-details-body">
+            <form class="com-mail"action="" method="POST">
+                {% csrf_token %}
+            
+                  Name<input type="text" value="{{cat.name}}"name="cat">
+                 <input type="submit" value="Add">
+               </form>
+          </div>
+        </div>
+      </div>
+{% endblock %}

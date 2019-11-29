@@ -1,0 +1,43 @@
+{% extends 'userside/base.html' %}
+{% block content %}
+<table class="table table-hover">
+    <thead class="thead thead-success">
+        <tr>
+            <th>Serial Number</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Status</th>
+            <th>View Details</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        {% for i in orders %}
+        <tr>
+            <td>
+                {{forloop.counter}}
+            </td>
+            <td>
+                {{ i.userid }}
+            </td>
+            <td>
+                    {{ i.address }}
+            </td>
+            <td>
+                {{ i.city}}
+            </td>
+            <td>
+                {{ i.status }}
+            </td>
+            <td>
+                <a href="{% url 'viewdetails' i.id %}">
+                <button class="btn btn-primary">View Details</button>
+                </a>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

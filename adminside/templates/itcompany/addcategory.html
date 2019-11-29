@@ -1,0 +1,38 @@
+{% extends 'itcompany/dashboard.html' %}
+{% block content %}
+<div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Add Category</h4>
+            <p class="card-category">Add your category here.</p>
+          </div>
+          <div class="card-body">
+            <form action="{% url 'addcategory' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Category</label>
+                    <input type="text" required name="category" class="form-control">
+                  </div>
+                </div>
+              </div>
+           
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="bmd-form-group">
+                  
+                    <input type="file" required name="image" required class="form-control">
+                  </div>
+                </div>
+              </div>
+
+            
+              <button type="submit" class="btn btn-primary pull-right">Add Category</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+{% endblock %}
