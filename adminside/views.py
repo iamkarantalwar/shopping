@@ -7,8 +7,11 @@ from django.contrib.auth.models import User
 from.models import Category
 from.models import Subcategory,Product,Order
 import json
-# Create your views here.
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 
+# Create your views here.
+@staff_member_required(login_url="/admin/login")
 def dashboard(request):
     return render(request, "itcompany/dashboard.html")
 
@@ -40,14 +43,15 @@ def form(request):
 
 def loginpage(request):
     if request.method == "POST":
-        result = authenticate(username=request.POST['user_name'],
-                              password=request.POST['password1']
+        result = authenticate(username=request.POST['username'],
+                              password=request.POST['password']
                               )
         if result is None:
-            return HttpResponse("please check your details again")
+            messages.success(request,"Enter the correct credentials")
+            return redirect(loginpage)
         else:
             login(request,result)
-            return HttpResponse("Accept")
+            return redirect(category)
     else:
         return render(request,"itcompany/login.html")
 
@@ -63,7 +67,7 @@ def register (request):
     else:
         return render(request,"itcompany/register.html")
 
-
+@staff_member_required(login_url="/admin/login")
 def category(request):
     if request.method == "POST":
         
@@ -71,24 +75,25 @@ def category(request):
         c.name = request.POST['category']
         c.image = request.FILES["image"]
         c.save()
-
-        return HttpResponse("add successfully")
+        messages.success(request,"Category added successfully")
+        return redirect(category)
     else:
-
         return render(request,"itcompany/addcategory.html")
 
+@staff_member_required(login_url="/admin/login")
 def subcategory(request):
     if request.method == "POST":
         c = Subcategory()
         c.category = Category.objects.get(id=request.POST['category'])
         c.name =request.POST['sub']
-        c.save()
-        
-        return HttpResponse("add successfully")
+        c.save()        
+        messages.success(request,"Subcategory added successfully.")
+        return redirect(subcategory)
     else:
         catgs =Category.objects.all()
         return render(request,"itcompany/subcategory.html",{'catgs':catgs})
 
+@staff_member_required(login_url="/admin/login")
 def product(request):
     if request.method == "POST":
         c = Product()
@@ -99,11 +104,13 @@ def product(request):
         c.discount_price =request.POST['discount_price']
         c.image=request.FILES["file"]
         c.save()
-        
-        return HttpResponse("add successfully")
+        messages.success(request,"Porduct Added Succesfully")
+        return redirect(product)
     else:
         subcatgs =Subcategory.objects.all()
         return render(request,"itcompany/product.html",{'subcatgs':subcatgs})
+
+@staff_member_required(login_url="/admin/login")
 def order(request):
     if request.method == "POST":
         c = Order()
@@ -120,11 +127,12 @@ def order(request):
 
         return render(request,"itcompany/order.html",{"orders":orders})
 
+@staff_member_required(login_url="/admin/login")
 def viewcategory(request):
     categories = Category.objects.all()
     return render(request,"itcompany/viewcategory.html",{"categories":categories})
 
-
+@staff_member_required(login_url="/admin/login")
 def vieworder(request,pk):
     if request.method=="POST":
         orde = Order.objects.get(id=pk)
@@ -150,18 +158,53 @@ def vieworder(request,pk):
         
         return render(request,"itcompany/vieworder.html",{"order":orde,"order_details":order_details,"total":total})
 
-
+@staff_member_required(login_url="/admin/login")
 def editcategory(request,pk):
     if request.method=="POST":
         c = Category.objects.get(id=pk)
         c.name = request.POST['cat']
         c.save()
-        return HttpResponse("Data Saved")
+        messages.success(request,"Category updated successfully.")
+        return redirect(category)
     else:
         cat=Category.objects.get(id=pk)
         return render(request,"itcompany/editcategory.html",{"cat":cat})
 
+@staff_member_required(login_url="/admin/login")
 def delcategory(request,pk):
         d = Category.objects.get(id=pk)
         d.delete()
+        messages.success(request,"Category deleted successfully.")
         return redirect(viewcategory)    
+
+
+def mylogin(request):
+    if request.method == "POST":
+        user = authenticate(username=request.POST["username"],password=request.POST["password"])
+        if user is not None:
+            return redirect(category)
+        else:
+            messages.success(request,"Enter the correct credentials")
+            return redirect(login)
+    return render(request,"itcompany/login.html")
+
+@staff_member_required(login_url="/admin/login")
+def viewsubcategory(request):
+    subcats = Subcategory.objects.all()
+    return render(request,"itcompany/viewsubcategory.html",{"sub":subcats})
+
+@staff_member_required(login_url="/admin/login")
+def delsubcat(request,pk):
+    d = Subcategory.objects.get(id=pk)
+    d.delete()
+    messages.success(request,"Subcategory Deleted Successfully")
+    return redirect(viewsubcategory)
+
+@staff_member_required(login_url="/admin/login")
+def viewproducts(request):
+    products = Product.objects.all()
+    return render(request,"itcompany/viewproducts.html",{"pro":products})
+
+def mylogout(request):
+    logout(request)
+    return redirect(loginpage)

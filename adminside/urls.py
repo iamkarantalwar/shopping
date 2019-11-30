@@ -17,8 +17,12 @@ urlpatterns = [
     path("viewcategory/",views.viewcategory,name="viewcategory"),
     path("order/<int:pk>",views.vieworder,name="vieworder"),
     path("editcategory/<int:pk>",views.editcategory,name="editcategory"),
-    path("delcategory/<int:pk>",views.delcategory,name="delcategory")
-  
+    path("delcategory/<int:pk>",views.delcategory,name="delcategory"),
+    path("login/",views.mylogin,name="mylogin"),
+    path("viewsubcategory/",views.viewsubcategory,name="viewsubcategory"),
+    path("delsubcat/<int:pk>",views.delsubcat,name="delsubcat"),
+    path("viewproduct/",views.viewproducts,name="viewproduct"),
+    path("mylogout/",views.mylogout,name="adminlogout"),
     
     
 ]

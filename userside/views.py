@@ -78,21 +78,21 @@ def signup(request):
             email=request.POST['email'],
             first_name=request.POST['name']
     )
-    return HttpResponse("User Created")
+    return redirect(base)
 
 def signin(request):
     user = authenticate(username=request.POST["email"],
                         password=request.POST['password'])
     if user is None:
-        return HttpResponse("Enter correct Credentials")
+        return redirect(base)
     else:
         login(request,user)
-        return HttpResponse("User is now Sign In")
+        return redirect(base)
 
 
 def signout(request):
     logout(request)
-    return HttpResponse("User Logged Out")
+    return redirect(base)
 
 def delfromcart(request,pk):
     request.session.modified = True

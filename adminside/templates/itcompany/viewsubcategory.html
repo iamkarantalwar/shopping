@@ -1,0 +1,58 @@
+{% extends 'itcompany/dashboard.html' %}
+{% block content %}
+<div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title ">Subcategory Table</h4>
+          
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <tr><th>
+                    Serial Number
+                  </th>
+                  <th>
+                    Category Name
+                  </th>
+               
+                  <th>
+                    Subcategory Image
+                  </th>
+                 
+                  <th>
+                    Delete
+                  </th>
+               
+                </tr></thead>
+                <tbody>
+                    {% for i in sub %}
+                  <tr>
+                    <td>
+                      {{ forloop.counter }}
+                    </td>
+                    <td>
+                      {{ i.name }}
+                    </td>
+                    <td>
+                     {{ i.category.name }}
+                    </td>
+                    
+                    <td>
+                       <a href="{% url 'delsubcat' i.id %}">
+                        <button class="btn btn-danger">Delete </button></a>
+                      
+                    </td>
+                
+                  </tr>
+                    {% endfor %}
+             
+                    
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
