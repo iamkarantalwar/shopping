@@ -121,7 +121,7 @@ def order(request):
         c.products=request.POST['products']
         c.save()
         
-        return HttpResponse("add successfully")
+        return redirect(vieworder)
     else:
         orders = Order.objects.all()
 
