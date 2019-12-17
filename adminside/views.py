@@ -208,3 +208,10 @@ def viewproducts(request):
 def mylogout(request):
     logout(request)
     return redirect(loginpage)
+
+
+def delproduct(request,pk):
+    d = Product.objects.get(id=pk)
+    d.delete()
+    messages.success(request,"Product Deleted Successfully")
+    return redirect(viewproducts)

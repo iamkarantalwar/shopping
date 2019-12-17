@@ -23,6 +23,7 @@ urlpatterns = [
     path("delsubcat/<int:pk>",views.delsubcat,name="delsubcat"),
     path("viewproduct/",views.viewproducts,name="viewproduct"),
     path("mylogout/",views.mylogout,name="adminlogout"),
+    path("delproduct/<int:pk>",views.delproduct,name="delproduct"),
     
     
 ]
